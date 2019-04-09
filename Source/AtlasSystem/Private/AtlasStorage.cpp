@@ -3,6 +3,7 @@
 #include "AtlasStorage.h"
 #include "AtlasBase.h"
 #include "AtlasWorldEntryInterface.h"
+#include "AtlasStorageEntry.h"
 
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
@@ -57,6 +58,39 @@ bool AAtlasStorage::UnregisterWorldEntry(AActor* WorldEntry)
 	OnEntryRemoved.Broadcast(WorldEntry);
 	return true;
 }
+
+UAtlasStorageEntry* AAtlasStorage::CreateEntry(TSubclassOf<UAtlasStorageEntry> EntryClass)
+{
+	UAtlasStorageEntry* NewEntry = NewObject<UAtlasStorageEntry>(this, EntryClass);
+	
+	StorageEntryList.Add(NewEntry);
+	OnStorageEntryAdded.Broadcast(NewEntry);
+
+	return NewEntry;
+}
+
+bool AAtlasStorage::RegisterEntry(UAtlasStorageEntry* Entry)
+{
+	if (StorageEntryList.AddUnique(Entry) == -1)
+	{
+		return false;
+	}
+
+	OnStorageEntryAdded.Broadcast(Entry);
+	return true;
+}
+
+bool AAtlasStorage::UnregisterEntry(UAtlasStorageEntry* Entry)
+{
+	if (StorageEntryList.Remove(Entry) == 0)
+	{
+		return false;
+	}
+
+	OnStorageEntryRemoved.Broadcast(Entry);
+	return true;
+}
+
 
 bool AAtlasStorage::RegisterAtlas(UAtlasBase* Atlas)
 {

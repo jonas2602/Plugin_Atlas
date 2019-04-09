@@ -13,6 +13,7 @@
 class AAtlasStorage;
 class AActor;
 class UAtlasWorldEntryWidget;
+class UAtlasStorageEntry;
 
 UCLASS()
 class ATLASSYSTEM_API UAtlasBase : public UUserWidget
@@ -24,6 +25,9 @@ public:
 	virtual void NativeOnInitialized() override;
 	// End of UUserWidget interface
 
+protected:
+
+
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
 	void AddWorldEntry(AActor* WorldEntry);
@@ -32,6 +36,14 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
 	void RemoveWorldEntry(AActor* WorldEntry);
 	virtual void RemoveWorldEntry_Implementation(AActor* WorldEntry) {};
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
+	void AddEntry(UAtlasStorageEntry* Entry);
+	virtual void AddEntry_Implementation(UAtlasStorageEntry* Entry) {};
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
+	void RemoveEntry(UAtlasStorageEntry* Entry);
+	virtual void RemoveEntry_Implementation(UAtlasStorageEntry* Entry) {};
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Default")

@@ -7,8 +7,10 @@
 #include "AtlasStorage.generated.h"
 
 class UAtlasBase;
+class UAtlasStorageEntry;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAtlasStorageDelegate, AActor*, WorldEntry);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAtlasStorageEntryDelegate, UAtlasStorageEntry*, StorageEntry);
 
 UCLASS()
 class ATLASSYSTEM_API AAtlasStorage : public AActor
@@ -25,8 +27,17 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
 	FAtlasStorageDelegate OnEntryRemoved;
 
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
+	FAtlasStorageEntryDelegate OnStorageEntryAdded;
+
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
+	FAtlasStorageEntryDelegate OnStorageEntryRemoved;
+
 	UFUNCTION(BlueprintPure, Category = "Default")
 	TArray<AActor*> GetWorldEntries() const { return WorldEntryList; }
+
+	UFUNCTION(BlueprintPure, Category = "Default")
+	TArray<UAtlasStorageEntry*> GetStorageEntries() const { return StorageEntryList; }
 
 protected:
 	// Called when the game starts or when spawned
@@ -43,6 +54,15 @@ public:
 	bool UnregisterWorldEntry(AActor* WorldEntry);
 
 	UFUNCTION(BlueprintCallable, Category = "Default")
+	UAtlasStorageEntry* CreateEntry(TSubclassOf<UAtlasStorageEntry> EntryClass);
+
+	UFUNCTION(BlueprintCallable, Category = "Default")
+	bool RegisterEntry(UAtlasStorageEntry* Entry);
+
+	UFUNCTION(BlueprintCallable, Category = "Default")
+	bool UnregisterEntry(UAtlasStorageEntry* Entry);
+
+	UFUNCTION(BlueprintCallable, Category = "Default")
 	bool RegisterAtlas(UAtlasBase* Atlas);
 
 	UFUNCTION(BlueprintCallable, Category = "Default")
@@ -51,6 +71,9 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
 	TArray<AActor*> WorldEntryList;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
+	TArray<UAtlasStorageEntry*> StorageEntryList;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
 	TArray<UAtlasBase*> AtlasList;

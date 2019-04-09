@@ -11,6 +11,7 @@
  */
 
 class UAtlasWorldEntryWidget;
+class UAtlasStorageEntry;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWorldTransformChanged, const FTransform&, Transform);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWorldEntryChanged);
@@ -27,6 +28,8 @@ public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
 	FWorldEntryChanged OnWorldEntryChanged;
 
+	UAtlasWorldEntryComponent();
+
 protected:
 	virtual void OnUpdateTransform(EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport = ETeleportType::None) override;
 
@@ -37,4 +40,7 @@ public:
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Default")
 	TSubclassOf<UAtlasWorldEntryWidget> EntryWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Default")
+	UAtlasStorageEntry* StorageTemplate;
 };

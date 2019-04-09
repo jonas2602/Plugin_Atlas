@@ -12,6 +12,7 @@
 
 class UAtlasWorldEntryComponent;
 class AActor;
+class UAtlasStorageEntry;
 
 UCLASS()
 class ATLASSYSTEM_API UAtlasWorldEntryWidget : public UUserWidget
@@ -21,6 +22,9 @@ class ATLASSYSTEM_API UAtlasWorldEntryWidget : public UUserWidget
 public:
 	UFUNCTION(BlueprintCallable, Category = "Default")
 	bool ConnectWorldEntry(AActor* WorldActor);
+
+	UFUNCTION(BlueprintCallable, Category = "Default")
+	bool ConnectEntry(UAtlasStorageEntry* StorageEntry);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
@@ -38,4 +42,6 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
 	UAtlasWorldEntryComponent* WorldEntryComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
+	UAtlasStorageEntry* StorageEntry;
 };

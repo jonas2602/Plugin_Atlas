@@ -5,6 +5,7 @@
 #include "AtlasBlueprintLibrary.h"
 #include "AtlasWorldEntryWidget.h"
 #include "AtlasWorldEntryInterface.h"
+#include "AtlasStorageEntry.h"
 #include "AtlasSystem.h"
 
 void UAtlasBase::NativeOnInitialized()
@@ -21,10 +22,17 @@ void UAtlasBase::NativeOnInitialized()
 	Storage->RegisterAtlas(this);
 	Storage->OnEntryAdded.AddDynamic(this, &UAtlasBase::AddWorldEntry);
 	Storage->OnEntryRemoved.AddDynamic(this, &UAtlasBase::RemoveWorldEntry);
+	Storage->OnStorageEntryAdded.AddDynamic(this, &UAtlasBase::AddEntry);
+	Storage->OnStorageEntryRemoved.AddDynamic(this, &UAtlasBase::RemoveEntry);
 
 	for (AActor* WorldEntry : Storage->GetWorldEntries())
 	{
 		AddWorldEntry(WorldEntry);
+	}
+
+	for (UAtlasStorageEntry* Entry : Storage->GetStorageEntries())
+	{
+		AddEntry(Entry);
 	}
 }
 
