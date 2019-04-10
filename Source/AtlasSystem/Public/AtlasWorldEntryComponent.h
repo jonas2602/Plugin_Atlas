@@ -13,34 +13,26 @@
 class UAtlasWorldEntryWidget;
 class UAtlasStorageEntry;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FWorldTransformChanged, const FTransform&, Transform);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FWorldEntryChanged);
-
 UCLASS()
 class ATLASSYSTEM_API UAtlasWorldEntryComponent : public UWidgetComponent
 {
 	GENERATED_BODY()
 	
 public:
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
-	FWorldTransformChanged OnWorldTransformChanged;
-
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
-	FWorldEntryChanged OnWorldEntryChanged;
-
 	UAtlasWorldEntryComponent();
 
 protected:
 	virtual void OnUpdateTransform(EUpdateTransformFlags UpdateTransformFlags, ETeleportType Teleport = ETeleportType::None) override;
 
-public:
-	UFUNCTION(BlueprintCallable, Category = "Default")
-	void UpdateEntryWidget();
+	// Called when the game starts
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
+	void CreateWorldEntry();
+	virtual void CreateWorldEntry_Implementation();
 
 protected:
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Default")
-	TSubclassOf<UAtlasWorldEntryWidget> EntryWidgetClass;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Default")
 	UAtlasStorageEntry* StorageTemplate;
 };

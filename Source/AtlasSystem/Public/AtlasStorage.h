@@ -9,8 +9,7 @@
 class UAtlasBase;
 class UAtlasStorageEntry;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAtlasStorageDelegate, AActor*, WorldEntry);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAtlasStorageEntryDelegate, UAtlasStorageEntry*, StorageEntry);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAtlasStorageDelegate, UAtlasStorageEntry*, StorageEntry);
 
 UCLASS()
 class ATLASSYSTEM_API AAtlasStorage : public AActor
@@ -22,19 +21,10 @@ public:
 	AAtlasStorage();
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
-	FAtlasStorageDelegate OnEntryAdded;
+	FAtlasStorageDelegate OnStorageEntryAdded;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
-	FAtlasStorageDelegate OnEntryRemoved;
-
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
-	FAtlasStorageEntryDelegate OnStorageEntryAdded;
-
-	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
-	FAtlasStorageEntryDelegate OnStorageEntryRemoved;
-
-	UFUNCTION(BlueprintPure, Category = "Default")
-	TArray<AActor*> GetWorldEntries() const { return WorldEntryList; }
+	FAtlasStorageDelegate OnStorageEntryRemoved;
 
 	UFUNCTION(BlueprintPure, Category = "Default")
 	TArray<UAtlasStorageEntry*> GetStorageEntries() const { return StorageEntryList; }
@@ -46,12 +36,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UFUNCTION(BlueprintCallable, Category = "Default")
-	bool RegisterWorldEntry(AActor* WorldEntry);
-
-	UFUNCTION(BlueprintCallable, Category = "Default")
-	bool UnregisterWorldEntry(AActor* WorldEntry);
 
 	UFUNCTION(BlueprintCallable, Category = "Default")
 	UAtlasStorageEntry* CreateEntry(TSubclassOf<UAtlasStorageEntry> EntryClass);
@@ -69,9 +53,6 @@ public:
 	bool UnregisterAtlas(UAtlasBase* Atlas);
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
-	TArray<AActor*> WorldEntryList;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
 	TArray<UAtlasStorageEntry*> StorageEntryList;
 

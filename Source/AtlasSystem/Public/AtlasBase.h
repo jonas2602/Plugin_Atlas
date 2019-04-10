@@ -26,29 +26,27 @@ public:
 	// End of UUserWidget interface
 
 protected:
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
+	void SetupEntry(UAtlasWorldEntryWidget* EntryWidget);
+	virtual void SetupEntry_Implementation(UAtlasWorldEntryWidget* EntryWidget) {};
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
+	void OnStorageTransformChanged(UAtlasWorldEntryWidget* Widget, const FTransform& Transform);
+	virtual void OnStorageTransformChanged_Implementation(UAtlasWorldEntryWidget* Widget, const FTransform& Transform) {};
 
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
-	void AddWorldEntry(AActor* WorldEntry);
-	virtual void AddWorldEntry_Implementation(AActor* WorldEntry) {};
+	void AddEntry(UAtlasStorageEntry* StorageEntry);
+	virtual void AddEntry_Implementation(UAtlasStorageEntry* StorageEntry);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
-	void RemoveWorldEntry(AActor* WorldEntry);
-	virtual void RemoveWorldEntry_Implementation(AActor* WorldEntry) {};
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
-	void AddEntry(UAtlasStorageEntry* Entry);
-	virtual void AddEntry_Implementation(UAtlasStorageEntry* Entry) {};
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
-	void RemoveEntry(UAtlasStorageEntry* Entry);
-	virtual void RemoveEntry_Implementation(UAtlasStorageEntry* Entry) {};
+	void RemoveEntry(UAtlasStorageEntry* StorageEntry);
+	virtual void RemoveEntry_Implementation(UAtlasStorageEntry* StorageEntry);
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Default")
 	AAtlasStorage* Storage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
-	TMap<AActor*, UAtlasWorldEntryWidget*> WorldEntryMap;
+	TMap<UAtlasStorageEntry*, UAtlasWorldEntryWidget*> StorageEntryMap;
 };

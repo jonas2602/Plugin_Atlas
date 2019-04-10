@@ -28,6 +28,9 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "Atlas")
 	const FTransform& GetEntryTransform() const { return EntryTransform; }
+	
+	UFUNCTION(BlueprintPure, Category = "Atlas")
+	TSubclassOf<UAtlasWorldEntryWidget> GetEntryWidgetClass() const { return EntryWidgetClass; }
 
 	UFUNCTION(BlueprintCallable, Category = "Atlas")
 	void SetEntryTransform(FTransform InTransform);

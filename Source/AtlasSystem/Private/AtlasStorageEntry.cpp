@@ -13,6 +13,8 @@ UAtlasStorageEntry::UAtlasStorageEntry()
 
 void UAtlasStorageEntry::SetEntryTransform(FTransform InTransform) 
 { 
+	if (InTransform.Equals(EntryTransform)) return;
+
 	EntryTransform = InTransform; 
 	OnTransformChanged.Broadcast(InTransform);
 }

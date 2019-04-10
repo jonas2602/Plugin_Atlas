@@ -30,35 +30,6 @@ void AAtlasStorage::Tick(float DeltaTime)
 
 }
 
-bool AAtlasStorage::RegisterWorldEntry(AActor* WorldEntry)
-{
-	// Is World Entry?
-	if (!WorldEntry || !WorldEntry->Implements<UAtlasWorldEntryInterface>())
-	{
-		return false;
-	}
-
-	// Successfully added?
-	if (WorldEntryList.AddUnique(WorldEntry) == -1)
-	{
-		return false;
-	}
-
-	OnEntryAdded.Broadcast(WorldEntry);
-	return true;
-}
-
-bool AAtlasStorage::UnregisterWorldEntry(AActor* WorldEntry)
-{
-	if (WorldEntryList.Remove(WorldEntry) == 0)
-	{
-		return false;
-	}
-
-	OnEntryRemoved.Broadcast(WorldEntry);
-	return true;
-}
-
 UAtlasStorageEntry* AAtlasStorage::CreateEntry(TSubclassOf<UAtlasStorageEntry> EntryClass)
 {
 	UAtlasStorageEntry* NewEntry = NewObject<UAtlasStorageEntry>(this, EntryClass);

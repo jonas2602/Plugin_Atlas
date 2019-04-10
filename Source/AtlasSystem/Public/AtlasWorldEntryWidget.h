@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "AtlasStorageEntry.h"
 #include "AtlasWorldEntryWidget.generated.h"
 
 /**
@@ -12,7 +13,8 @@
 
 class UAtlasWorldEntryComponent;
 class AActor;
-class UAtlasStorageEntry;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDesiredTransformChanged, UAtlasWorldEntryWidget*, Widget, const FTransform&, Transform);
 
 UCLASS()
 class ATLASSYSTEM_API UAtlasWorldEntryWidget : public UUserWidget
@@ -20,20 +22,29 @@ class ATLASSYSTEM_API UAtlasWorldEntryWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable, Category = "Default")
-	bool ConnectWorldEntry(AActor* WorldActor);
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
+	FDesiredTransformChanged OnDesiredTransformChanged;
 
 	UFUNCTION(BlueprintCallable, Category = "Default")
-	bool ConnectEntry(UAtlasStorageEntry* StorageEntry);
+	bool ConnectStorageEntry(UAtlasStorageEntry* StorageEntry);
+
+	UFUNCTION(BlueprintPure, Category = "Default")
+	const FTransform& GetStorageTransform() const { return StorageEntry->GetEntryTransform(); }
+	
+	UFUNCTION(BlueprintPure, Category = "Default")
+	FVector GetStorageLocation() const { return StorageEntry->GetEntryTransform().GetLocation(); }
+	
+	UFUNCTION(BlueprintPure, Category = "Default")
+	FRotator GetStorageRotation() const { return StorageEntry->GetEntryTransform().Rotator(); }
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
-	void OnWorldTransformChanged(const FTransform& Transform);
-	virtual void OnWorldTransformChanged_Implementation(const FTransform& Transform);
+	void OnStorageTransformChanged(const FTransform& Transform);
+	virtual void OnStorageTransformChanged_Implementation(const FTransform& Transform);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
-	void OnWorldEntryChanged();
-	virtual void OnWorldEntryChanged_Implementation();
+	void OnStorageStateChanged();
+	virtual void OnStorageStateChanged_Implementation();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
