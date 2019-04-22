@@ -14,7 +14,7 @@
 class UAtlasWorldEntryComponent;
 class AActor;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDesiredTransformChanged, UAtlasWorldEntryWidget*, Widget, const FTransform&, Transform);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDesiredWidgetTransformChanged, UAtlasWorldEntryWidget*, Widget, const FTransform&, Transform);
 
 UCLASS()
 class ATLASSYSTEM_API UAtlasWorldEntryWidget : public UUserWidget
@@ -23,7 +23,10 @@ class ATLASSYSTEM_API UAtlasWorldEntryWidget : public UUserWidget
 	
 public:
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "Atlas")
-	FDesiredTransformChanged OnDesiredTransformChanged;
+	FDesiredWidgetTransformChanged OnDesiredTransformChanged;
+
+public:
+	//UAtlasWorldEntryWidget(const FObjectInitializer& ObjectInitializer);
 
 	UFUNCTION(BlueprintCallable, Category = "Default")
 	bool ConnectStorageEntry(UAtlasStorageEntry* StorageEntry);
@@ -37,6 +40,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Default")
 	FRotator GetStorageRotation() const { return StorageEntry->GetEntryTransform().Rotator(); }
 
+	UFUNCTION(BlueprintPure, Category = "Default")
+	AActor* GetWorldActor() const { return StorageEntry->GetReferenceActor(); }
+
 protected:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
 	void OnStorageTransformChanged(const FTransform& Transform);
@@ -46,13 +52,11 @@ protected:
 	void OnStorageStateChanged();
 	virtual void OnStorageStateChanged_Implementation();
 
+	/*UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
+	UUserWidget* CreateTooltipWidget();
+	virtual UUserWidget* CreateTooltipWidget_Implementation() { return nullptr; }*/
+
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
-	AActor* WorldEntryActor;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
-	UAtlasWorldEntryComponent* WorldEntryComponent;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
 	UAtlasStorageEntry* StorageEntry;
 };

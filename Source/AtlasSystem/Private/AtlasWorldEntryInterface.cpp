@@ -13,8 +13,8 @@ UAtlasWorldEntryComponent* IAtlasWorldEntryInterface::GetWorldEntryComponent_Imp
 	return nullptr;
 }
 
-UAtlasWorldEntryWidget* IAtlasWorldEntryInterface::GetEntryWidget_Implementation(APlayerController* Controller) const
-{
-	UE_LOG(LogAtlas, Error, TEXT("GetEntryWidget not implemented"));
-	return nullptr;
-}
+//UAtlasWorldEntryWidget* IAtlasWorldEntryInterface::GetEntryWidget_Implementation(APlayerController* Controller) const
+//{
+//	UE_LOG(LogAtlas, Error, TEXT("GetEntryWidget not implemented"));
+//	return nullptr;
+//}

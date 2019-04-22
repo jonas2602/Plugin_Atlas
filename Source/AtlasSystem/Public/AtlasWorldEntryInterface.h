@@ -30,7 +30,7 @@ public:
 	UAtlasWorldEntryComponent* GetWorldEntryComponent() const;
 	virtual UAtlasWorldEntryComponent* GetWorldEntryComponent_Implementation() const;
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Atlas")
+	/*UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Atlas")
 	UAtlasWorldEntryWidget* GetEntryWidget(APlayerController* Controller) const;
-	virtual UAtlasWorldEntryWidget* GetEntryWidget_Implementation(APlayerController* Controller) const;
+	virtual UAtlasWorldEntryWidget* GetEntryWidget_Implementation(APlayerController* Controller) const;*/
 };

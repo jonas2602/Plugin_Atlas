@@ -29,6 +29,7 @@ void UAtlasWorldEntryComponent::BeginPlay()
 
 	// Register Entry in AtlasStorage
 	AAtlasStorage* Storage = UAtlasBlueprintLibrary::GetAtlasStorage(GetWorld());
+	StorageTemplate->SetReferenceActor(GetOwner());
 	Storage->RegisterEntry(StorageTemplate);
 
 	// Create Widget in WorldSpace

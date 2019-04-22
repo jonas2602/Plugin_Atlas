@@ -4,6 +4,12 @@
 #include "AtlasWorldEntryComponent.h"
 #include "AtlasStorageEntry.h"
 
+//UAtlasWorldEntryWidget::UAtlasWorldEntryWidget(const FObjectInitializer& ObjectInitializer)
+//	: Super(ObjectInitializer)
+//{
+//	//ToolTipWidgetDelegate.BindUFunction(this, "CreateTooltipWidget");
+//}
+
 bool UAtlasWorldEntryWidget::ConnectStorageEntry(UAtlasStorageEntry* StorageEntry)
 {
 	// Valid Storage Entry?

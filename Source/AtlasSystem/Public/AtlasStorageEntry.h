@@ -7,6 +7,7 @@
 #include "AtlasStorageEntry.generated.h"
 
 class UAtlasWorldEntryWidget;
+class AAtlasEntryFigure;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FEntryTransformChanged, const FTransform&, Transform);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEntryStateChanged);
@@ -32,13 +33,31 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Atlas")
 	TSubclassOf<UAtlasWorldEntryWidget> GetEntryWidgetClass() const { return EntryWidgetClass; }
 
+	UFUNCTION(BlueprintPure, Category = "Atlas")
+	TSubclassOf<AAtlasEntryFigure> GetEntryFigureClass() const { return EntryFigureClass; }
+
+	UFUNCTION(BlueprintPure, Category = "Atlas")
+	AActor* GetReferenceActor() const { return ReferenceActor; }
+
 	UFUNCTION(BlueprintCallable, Category = "Atlas")
 	void SetEntryTransform(FTransform InTransform);
 
+	UFUNCTION(BlueprintCallable, Category = "Atlas")
+	void SetReferenceActor(AActor* InActor);
+
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Atlas")
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Atlas")
+	AActor* ReferenceActor;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Atlas")
 	FTransform EntryTransform;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Atlas")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Atlas")
 	TSubclassOf<UAtlasWorldEntryWidget> EntryWidgetClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Atlas")
+	TSubclassOf<AAtlasEntryFigure> EntryFigureClass;
+
+	// TODO: third type for widget components?
+	// TODO: Data splitted in Widget and Figure related variables
 };

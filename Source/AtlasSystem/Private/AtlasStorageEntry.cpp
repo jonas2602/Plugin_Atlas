@@ -18,3 +18,8 @@ void UAtlasStorageEntry::SetEntryTransform(FTransform InTransform)
 	EntryTransform = InTransform; 
 	OnTransformChanged.Broadcast(InTransform);
 }
+
+void UAtlasStorageEntry::SetReferenceActor(AActor* InActor)
+{
+	this->ReferenceActor = InActor;
+}
