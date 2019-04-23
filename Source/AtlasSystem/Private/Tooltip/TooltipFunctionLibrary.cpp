@@ -3,6 +3,7 @@
 
 #include "TooltipFunctionLibrary.h"
 #include "TooltipWidgetBase.h"
+#include "BorderedTooltipWidget.h"
 #include "TooltipAnchorActor.h"
 #include "TooltipAnchorWidget.h"
 #include "AtlasSystem.h"
@@ -10,16 +11,21 @@
 #include "Engine/World.h"
 #include "Kismet/GameplayStatics.h"
 
-UTooltipWidgetBase* UTooltipFunctionLibrary::CreateTooltipForActor(TSubclassOf<UTooltipWidgetBase> WidgetClass, APlayerController* OwningPlayer, AActor* AnchorActor, ETooltipAlignment AlignmentType, ETooltipAnchor AnchorType)
+UTooltipWidgetBase* UTooltipFunctionLibrary::CreateTooltipForActor(UUserWidget* TooltipContent, APlayerController* OwningPlayer, AActor* AnchorActor, TSubclassOf<UTooltipWidgetBase> TooltipClass, ETooltipAlignment AlignmentType, ETooltipAnchor AnchorType)
 {
-	if (!WidgetClass)
+	if (!TooltipContent)
 	{
-		UE_LOG(LogAtlas, Warning, TEXT("Widget Class not valid in CreateTooltipForActor()"));
+		UE_LOG(LogAtlas, Warning, TEXT("Tooltip Content not valid in CreateTooltipForActor()"));
 		return nullptr;
 	}
 
+	if (!TooltipClass) 
+	{
+		TooltipClass = UBorderedTooltipWidget::StaticClass();
+	}
+
 	// Create Widget
-	UTooltipWidgetBase* TooltipWidget = CreateWidget<UTooltipWidgetBase>(OwningPlayer, WidgetClass);
+	UTooltipWidgetBase* TooltipWidget = CreateWidget<UTooltipWidgetBase>(OwningPlayer, TooltipClass);
 
 	// Create Anchor
 	UTooltipAnchorActor* Anchor = NewObject<UTooltipAnchorActor>(TooltipWidget);
@@ -27,6 +33,7 @@ UTooltipWidgetBase* UTooltipFunctionLibrary::CreateTooltipForActor(TSubclassOf<U
 	Anchor->SetAnchorActor(AnchorActor);
 
 	// Init Widget
+	TooltipWidget->SetTooltipContent(TooltipContent);
 	TooltipWidget->SetTooltipAnchor(Anchor);
 	TooltipWidget->SetAlignmentType(AlignmentType);
 	TooltipWidget->SetAnchorType(AnchorType);
@@ -35,16 +42,21 @@ UTooltipWidgetBase* UTooltipFunctionLibrary::CreateTooltipForActor(TSubclassOf<U
 	return TooltipWidget;
 }
 
-UTooltipWidgetBase* UTooltipFunctionLibrary::CreateTooltipForWidget(TSubclassOf<UTooltipWidgetBase> WidgetClass, APlayerController* OwningPlayer, UUserWidget* AnchorWidget, ETooltipAlignment AlignmentType, ETooltipAnchor AnchorType)
+UTooltipWidgetBase* UTooltipFunctionLibrary::CreateTooltipForWidget(UUserWidget* TooltipContent, APlayerController* OwningPlayer, UUserWidget* AnchorWidget, TSubclassOf<UTooltipWidgetBase> TooltipClass, ETooltipAlignment AlignmentType, ETooltipAnchor AnchorType)
 {
-	if (!WidgetClass)
+	if (!TooltipContent)
 	{
-		UE_LOG(LogAtlas, Warning, TEXT("Widget Class not valid in CreateTooltipForWidget()"));
+		UE_LOG(LogAtlas, Warning, TEXT("Tooltip Content not valid in CreateTooltipForWidget()"));
 		return nullptr;
 	}
 
+	if (!TooltipClass)
+	{
+		TooltipClass = UBorderedTooltipWidget::StaticClass();
+	}
+
 	// Create Widget
-	UTooltipWidgetBase* TooltipWidget = CreateWidget<UTooltipWidgetBase>(OwningPlayer, WidgetClass);
+	UTooltipWidgetBase* TooltipWidget = CreateWidget<UTooltipWidgetBase>(OwningPlayer, TooltipClass);
 
 	// Create Anchor
 	UTooltipAnchorWidget* Anchor = NewObject<UTooltipAnchorWidget>(TooltipWidget);
@@ -52,6 +64,7 @@ UTooltipWidgetBase* UTooltipFunctionLibrary::CreateTooltipForWidget(TSubclassOf<
 	Anchor->SetAnchorWidget(AnchorWidget);
 
 	// Init Widget
+	TooltipWidget->SetTooltipContent(TooltipContent);
 	TooltipWidget->SetTooltipAnchor(Anchor);
 	TooltipWidget->SetAlignmentType(AlignmentType);
 	TooltipWidget->SetAnchorType(AnchorType);

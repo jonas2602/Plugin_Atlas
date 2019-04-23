@@ -9,7 +9,6 @@
 
 class UTooltipAnchorBase;
 
-// TODO: Tooltip as seperate UserWidget with other Widget(content) as child
 UCLASS()
 class ATLASSYSTEM_API UTooltipWidgetBase : public UUserWidget
 {
@@ -37,6 +36,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Default")
 	void SetAlignmentType(ETooltipAlignment InAlignmentType) { this->AlignmentType = InAlignmentType; }
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
+	void SetTooltipContent(UUserWidget* Content);
+	virtual void SetTooltipContent_Implementation(UUserWidget* Content);
 
 protected:
 	UFUNCTION(BlueprintPure, Category = "Default")

@@ -68,6 +68,11 @@ void UTooltipWidgetBase::UpdateGeometry()
 	SetAlignmentInViewport(TargetAlignment);
 }
 
+void UTooltipWidgetBase::SetTooltipContent_Implementation(UUserWidget* Content)
+{
+	UE_LOG(LogAtlas, Error, TEXT("SetTooltipContent() not implemented on %s"), *GetName());
+}
+
 FVector2D UTooltipWidgetBase::AlignmentToDirection(ETooltipAlignment AlignmentType) const
 {
 	switch (AlignmentType) {

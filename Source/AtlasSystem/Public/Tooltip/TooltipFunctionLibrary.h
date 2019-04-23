@@ -19,11 +19,11 @@ class ATLASSYSTEM_API UTooltipFunctionLibrary : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, meta = (AdvancedDisplay = "AlignmentType, AnchorType"), Category = "Tooltip")
-	static UTooltipWidgetBase* CreateTooltipForActor(TSubclassOf<UTooltipWidgetBase> WidgetClass, APlayerController* OwningPlayer, AActor* AnchorActor, ETooltipAlignment AlignmentType = ETooltipAlignment::UpperRight, ETooltipAnchor AnchorType = ETooltipAnchor::Cursor);
+	UFUNCTION(BlueprintCallable, meta = (AdvancedDisplay = "AlignmentType, AnchorType, TooltipClass"), Category = "Tooltip")
+	static UTooltipWidgetBase* CreateTooltipForActor(UUserWidget* TooltipContent, APlayerController* OwningPlayer, AActor* AnchorActor, TSubclassOf<UTooltipWidgetBase> TooltipClass, ETooltipAlignment AlignmentType = ETooltipAlignment::UpperRight, ETooltipAnchor AnchorType = ETooltipAnchor::Cursor);
 
 	UFUNCTION(BlueprintCallable, meta = (AdvancedDisplay = "AlignmentType, AnchorType"), Category = "Tooltip")
-	static UTooltipWidgetBase* CreateTooltipForWidget(TSubclassOf<UTooltipWidgetBase> WidgetClass, APlayerController* OwningPlayer, UUserWidget* AnchorWidget, ETooltipAlignment AlignmentType = ETooltipAlignment::UpperRight, ETooltipAnchor AnchorType = ETooltipAnchor::Cursor);
+	static UTooltipWidgetBase* CreateTooltipForWidget(UUserWidget* TooltipContent, APlayerController* OwningPlayer, UUserWidget* AnchorWidget, TSubclassOf<UTooltipWidgetBase> TooltipClass, ETooltipAlignment AlignmentType = ETooltipAlignment::UpperRight, ETooltipAnchor AnchorType = ETooltipAnchor::Cursor);
 	
 	UFUNCTION(BlueprintCallable, Category = "Tooltip")
 	static void DestroyTooltip(UTooltipWidgetBase* Tooltip);
