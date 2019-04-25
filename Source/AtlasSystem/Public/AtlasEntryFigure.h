@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "AtlasStorageEntry.h"
+#include "Tooltip/TooltipTypes.h"
 #include "AtlasEntryFigure.generated.h"
+
+class UTooltipWidgetBase;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDesiredFigureTransformChanged, AAtlasEntryFigure*, Figure, const FTransform&, Transform);
 
@@ -21,8 +24,16 @@ public:
 	// Sets default values for this actor's properties
 	AAtlasEntryFigure();
 
+protected:
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+
+	virtual void NotifyActorBeginCursorOver() override;
+	virtual void NotifyActorEndCursorOver() override;
+
+public:
 	UFUNCTION(BlueprintCallable, Category = "Default")
-	bool ConnectStorageEntry(UAtlasStorageEntry* StorageEntry);
+	bool ConnectStorageEntry(UAtlasStorageEntry* InStorageEntry);
 
 protected:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Default")
@@ -33,7 +44,25 @@ protected:
 	void OnStorageStateChanged();
 	virtual void OnStorageStateChanged_Implementation();
 
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Tooltip")
+	UUserWidget* CreateTooltipContent();
+	virtual UUserWidget* CreateTooltipContent_Implementation();
+
+
 protected:
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Default")
 	UAtlasStorageEntry* StorageEntry;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tooltip")
+	ETooltipAlignment TooltipAlignment;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tooltip")
+	ETooltipAnchor TooltipAnchor;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Tooltip")
+	TSubclassOf<UTooltipWidgetBase> TooltipClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Tooltip")
+	UTooltipWidgetBase* TooltipInstance;
 };
