@@ -4,6 +4,7 @@
 #include "TooltipAnchorActor.h"
 
 #include "WidgetLayoutLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/PlayerController.h"
 
 FVector2D UTooltipAnchorActor::GetPositionFromDirection_Implementation(const FVector2D& Direction) const
@@ -23,6 +24,7 @@ FVector2D UTooltipAnchorActor::GetPositionFromDirection_Implementation(const FVe
 	// Calculate Tooltip Position in WorldSpace
 	FVector Offset = CameraDirection.GetSafeNormal() * AnchorExtends.Size();
 	FVector WorldPosition = AnchorOrigin + Offset;
+	WorldPosition = UKismetMathLibrary::Vector_BoundedToBox(WorldPosition, AnchorOrigin - AnchorExtends, AnchorOrigin + AnchorExtends);
 
 	// Transform World Position back to Viewport
 	FVector2D ScreenPosition;
