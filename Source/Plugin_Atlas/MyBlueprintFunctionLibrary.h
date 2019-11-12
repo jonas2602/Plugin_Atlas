@@ -6,6 +6,19 @@
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "MyBlueprintFunctionLibrary.generated.h"
 
+USTRUCT(BlueprintType)
+struct FMyStructTest 
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "First")
+	int value1;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Second")
+	int value2;
+
+};
+
 /**
  * 
  */
